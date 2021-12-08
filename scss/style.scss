@@ -10,8 +10,23 @@ h1 {
 }
 
 /* Create two equal columns that sits next to each other */
-.column {
-  flex: 50%;
+.column-left {
+  flex: 25%;
   padding: 10px;
   background-color: purple;
+}
+.column-right {
+  flex: 75%;
+
+  background-color: purple;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
