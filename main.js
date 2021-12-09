@@ -4,11 +4,13 @@ const filters = {
   nameOrder: 'none',
   employeesOrder: 'none',
 };
+
 const onNameOrderChange = ({ target }) => {
   filters.nameOrder = target.value;
   filters.employeesOrder = 'none';
   makeList();
 };
+
 const onEmployeesOrderChange = ({ target }) => {
   filters.employeesOrder = target.value;
   filters.nameOrder = 'none';
@@ -61,7 +63,7 @@ const makeList = async () => {
       (item.industry === filters.industry || filters.industry === 'all')
   );
 
-  var html = '<ul>';
+  let html = '<ul>';
   sortEmployees(sortName(filteredData)).map((item) => {
     html =
       html +
@@ -72,8 +74,8 @@ const makeList = async () => {
       numberOfEmployees: ${item.numberOfEmployees}
       </li>`;
   });
-  var html = html + '</ul>';
-  updateDOM('data', html);
+  let html = html + '</ul>';
+  updateDOM({ id: 'data', html });
   collectCountries(data);
   collectIndustries(data);
   document.getElementById('name').value = filters.nameOrder;
@@ -81,7 +83,7 @@ const makeList = async () => {
 };
 makeList();
 
-const updateDOM = (id, html) => {
+const updateDOM = ({ id, html }) => {
   const element = document.getElementById(id);
   element.innerHTML = html;
 };
@@ -91,7 +93,7 @@ const collectCountries = (data) => {
   data.map((item) => {
     countries.add(item.country);
   });
-  var html = `<option value="all"> </option>`;
+  let html = `<option value="all"> </option>`;
   Array.from(countries)
     .sort()
     .map((country) => {
@@ -113,7 +115,7 @@ const collectIndustries = (data) => {
   data.map((item) => {
     industries.add(item.industry);
   });
-  var html = `<option value="all"> </option>`;
+  let html = `<option value="all"> </option>`;
   Array.from(industries)
     .sort()
     .map((industry) => {
