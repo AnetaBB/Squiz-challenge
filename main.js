@@ -1,19 +1,41 @@
-const listItems = {};
+const filters = {
+  country: 'all',
+  industry: 'all',
+  nameOrder: 'none',
+  employeesOrder: 'none',
+};
+const onNameOrderChange = ({ target }) => {
+  filters.nameOrder = target.value;
+  makeList();
+};
+const onEmployeesOrderChange = ({ target }) => {
+  filters.employeesOrder = target.value;
+  makeList();
+};
+
+document.getElementById('name').addEventListener('change', onNameOrderChange);
+document
+  .getElementById('employees')
+  .addEventListener('change', onEmployeesOrderChange);
+
 const getData = async () => {
   const response = await fetch(
     'https://dujour.squiz.cloud/developer-challenge/data'
   );
   const data = await response.json();
-
-  listItems.data = data;
   return data;
 };
 
 const makeList = async () => {
   const data = await getData();
   console.log('data:', data);
+  const filteredData = data.filter(
+    (item) =>
+      (item.country === filters.country || filters.country === 'all') &&
+      (item.industry === filters.industry || filters.industry === 'all')
+  );
   var html = '<ul>';
-  data.map((item) => {
+  filteredData.map((item) => {
     html =
       html +
       `<li key=${item.id}>
@@ -25,10 +47,58 @@ const makeList = async () => {
   });
   var html = html + '</ul>';
   updateDOM('data', html);
+  collectCountries(data);
+  collectIndustries(data);
+  document.getElementById('name').value = filters.nameOrder;
+  document.getElementById('employees').value = filters.employeesOrder;
 };
 makeList();
 
 const updateDOM = (id, html) => {
   const element = document.getElementById(id);
   element.innerHTML = html;
+};
+
+const collectCountries = (data) => {
+  const countries = new Set();
+  data.map((item) => {
+    countries.add(item.country);
+  });
+  var html = `<option value="all"> </option>`;
+  Array.from(countries)
+    .sort()
+    .map((country) => {
+      html = html + `<option value="${country}">${country}</option>`;
+    });
+  const element = document.getElementById('countries');
+  element.innerHTML = html;
+  element.removeEventListener('change', onCountryChange);
+  element.addEventListener('change', onCountryChange);
+  element.value = filters.country;
+};
+const onCountryChange = ({ target }) => {
+  filters.country = target.value;
+  makeList();
+};
+
+const collectIndustries = (data) => {
+  const industries = new Set();
+  data.map((item) => {
+    industries.add(item.industry);
+  });
+  var html = `<option value="all"> </option>`;
+  Array.from(industries)
+    .sort()
+    .map((industry) => {
+      html = html + `<option value="${industry}">${industry}</option>`;
+    });
+  const element = document.getElementById('industries');
+  element.innerHTML = html;
+  element.removeEventListener('change', onIndustryChange);
+  element.addEventListener('change', onIndustryChange);
+  element.value = filters.industry;
+};
+const onIndustryChange = ({ target }) => {
+  filters.industry = target.value;
+  makeList();
 };
