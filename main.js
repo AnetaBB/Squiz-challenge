@@ -6,10 +6,12 @@ const filters = {
 };
 const onNameOrderChange = ({ target }) => {
   filters.nameOrder = target.value;
+  filters.employeesOrder = 'none';
   makeList();
 };
 const onEmployeesOrderChange = ({ target }) => {
   filters.employeesOrder = target.value;
+  filters.nameOrder = 'none';
   makeList();
 };
 
@@ -26,6 +28,31 @@ const getData = async () => {
   return data;
 };
 
+const sortName = (data) => {
+  if (filters.nameOrder === 'none') return data;
+
+  if (filters.nameOrder === 'asc') {
+    return data.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+  }
+  return data.sort((a, b) => {
+    if (a.name > b.name) return -1;
+    if (a.name < b.name) return 1;
+    return 0;
+  });
+};
+const sortEmployees = (data) => {
+  if (filters.employeesOrder === 'none') return data;
+
+  if (filters.employeesOrder === 'asc') {
+    return data.sort((a, b) => a.numberOfEmployees - b.numberOfEmployees);
+  }
+  return data.sort((a, b) => b.numberOfEmployees - a.numberOfEmployees);
+};
+
 const makeList = async () => {
   const data = await getData();
   console.log('data:', data);
@@ -34,8 +61,9 @@ const makeList = async () => {
       (item.country === filters.country || filters.country === 'all') &&
       (item.industry === filters.industry || filters.industry === 'all')
   );
+
   var html = '<ul>';
-  filteredData.map((item) => {
+  sortEmployees(sortName(filteredData)).map((item) => {
     html =
       html +
       `<li key=${item.id}>
