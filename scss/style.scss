@@ -3,25 +3,49 @@
 }
 h1 {
   text-align: center;
+  text-decoration: underline;
 }
-/* Create two equal columns that floats next to each other */
-.row {
-  display: flex;
+h2 {
+  text-align: center;
 }
 
-/* Create two equal columns that sits next to each other */
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-flow: wrap;
+}
+
 .column-left {
   flex: 25%;
-  padding: 10px;
-  background-color: purple;
-  flex-direction: column;
-  display: flex;
+  padding: 10px 0px 50px 0px;
+  background: rgb(217, 221, 237);
+  background: radial-gradient(
+    circle,
+    rgba(217, 221, 237, 1) 0%,
+    rgba(165, 81, 249, 1) 100%
+  );
+  text-align: center;
+}
+div.column-left {
+  border-style: solid;
+  border-color: #7538ab;
 }
 .column-right {
   flex: 75%;
-
-  background-color: purple;
+  background: rgb(217, 221, 237);
+  background: radial-gradient(
+    circle,
+    rgba(217, 221, 237, 1) 0%,
+    rgba(89, 81, 249, 1) 100%
+  );
+  text-align: center;
 }
+div.column-right {
+  border-style: solid;
+  border-color: #3138ab;
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -31,4 +55,23 @@ li {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+label {
+  margin: 5px 0;
+  text-align: center;
+}
+select {
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .row {
+    display: flex;
+    flex-direction: column;
+  }
+  .column-left {
+    margin: 25px;
+  }
 }

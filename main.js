@@ -55,7 +55,6 @@ const sortEmployees = (data) => {
 
 const makeList = async () => {
   const data = await getData();
-  console.log('data:', data);
   const filteredData = data.filter(
     (item) =>
       (item.country === filters.country || filters.country === 'all') &&
